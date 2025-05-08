@@ -1,24 +1,32 @@
 const express = require("express");
 const cors = require("cors");
-const connectToMongo = require('./dbs')
-require('dotenv').config(); 
+const connectToMongo = require("./dbs");
+require("dotenv").config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
-console.log(JWT_SECRET)
 
 const app = express();
-const port = 5001;
+const port = process.env.PORT;
 
-app.use(cors());
-app.use(express.json())
+const corsOptions = {
+  origin:
+    process.env.CORS_ALLOWED_ORIGINS === "*"
+      ? "*"
+      : process.env.CORS_ALLOWED_ORIGINS.split(","),
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "auth-token"],
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Successful response.");
 });
 
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api', require('./routes/events'))
-app.use('/api', require('./routes/registration'))
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api", require("./routes/events"));
+app.use("/api", require("./routes/registration"));
 
 app.listen(port, () =>
   console.log(`Example app is listening on port ${port}.`)
