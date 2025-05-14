@@ -9,10 +9,8 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors({
-  origin: 'https://events4all.vercel.app', // your frontend origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true // if you're using cookies or auth headers
+  origin: 'https://events4all.vercel.app',
+  credentials: true
 }));
 
 app.use(express.json());
@@ -25,6 +23,9 @@ app.get("/", (req, res) => {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api", require("./routes/events"));
 app.use("/api", require("./routes/registration"));
+app.get('/working', (req, res)=>{
+  res.send({success:true,working:"its working properlu"})
+})
 
 app.listen(port, () =>
   console.log(`Example app is listening on port ${port}.`)
