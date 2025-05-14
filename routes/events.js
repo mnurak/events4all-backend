@@ -148,7 +148,7 @@ router.patch(
       success = true;
       res.json({ success, event });
     } catch (error) {
-      res.status(500).send({ success, error: "internal server error" });
+      res.status(500).send({ success, error });
     }
   }
 );
@@ -160,7 +160,7 @@ router.get("/event/events/get", async (req, res) => {
     const events = await Events.find();
     res.send({ success: true, events });
   } catch (error) {
-    res.status(500).send({ success, error: "Internal server error" });
+    res.status(500).send({ success, error });
   }
 });
 
@@ -175,7 +175,7 @@ router.get("/event/college/get", fetchuser, async (req, res) => {
     const events = await Events.find({ collegeID });
     res.send({ success: true, events });
   } catch (error) {
-    res.status(500).send({ success, error: "Internal server error" });
+    res.status(500).send({ success, error });
   }
 });
 
@@ -198,7 +198,7 @@ router.delete("/event/delete/:id", fetchuser, async (req, res) => {
     success = true;
     res.send({ success, event });
   } catch (error) {
-    res.status(500).send({ sucess, error: "Internal server error" });
+    res.status(500).send({ sucess, error });
   }
 });
 
