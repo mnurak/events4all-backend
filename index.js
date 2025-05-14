@@ -9,16 +9,15 @@ const app = express();
 const port = process.env.PORT;
 
 const corsOptions = {
-  origin:
-    process.env.CORS_ALLOWED_ORIGINS === "*"
-      ? "*"
-      : process.env.CORS_ALLOWED_ORIGINS.split(","),
+  origin: 'https://events4all.vercel.app',
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "auth-token"],
+  credentials: true
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Successful response.");
