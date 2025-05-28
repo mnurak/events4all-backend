@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const loginSchema = new mongoose.Schema({
   type: { type: String, required: true },
-  id: { type: mongoose.Schema.Types.ObjectId },
+  id: { type: String },
   email: {
     type: String,
     required: true,
