@@ -23,6 +23,9 @@ const eventSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  link: {
+    type: String
+  },
   collegeID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'College',

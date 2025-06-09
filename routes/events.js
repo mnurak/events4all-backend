@@ -14,7 +14,7 @@ const removeUndefined = (obj) => {
   return obj;
 };
 
-// api for event details from college side
+// api for event details from college side /events/create
 router.post(
   "/event/create",
   fetchuser,
@@ -36,12 +36,13 @@ router.post(
       date,
       registrationEndDate,
       description,
+      link,
       maxParticipantsPerTeam,
       currentParticipants,
       maxParticipants,
       status,
     } = req.body;
-    console.log(req.user);
+    
     const collegeID = req.user.id;
     if (!collegeID || !title) {
       return res
@@ -49,7 +50,7 @@ router.post(
         .send({ success, error: "Invalid college or title" });
     }
     let event = await Events.findOne({ title, collegeID });
-    console.log("evnets are " + event);
+    
     if (event)
       return res
         .status(400)
@@ -62,12 +63,13 @@ router.post(
         registrationEndDate,
         maxParticipantsPerTeam,
         description,
+        link,
         currentParticipants,
         maxParticipants,
         status,
         collegeID,
       });
-      console.log(input);
+      
       event = await Events.create(input);
       success = true;
       res.json({ success, event });
