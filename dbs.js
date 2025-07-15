@@ -29,7 +29,7 @@ const connectToMongo = () => {
     setupChangeStream(Students, "students", studentsTrigger);
     setupChangeStream(Colleges, "colleges", collegesTrigger);
     setupChangeStream(Events, "events", eventsTrigger);
-    setupChangeStream(Registrations, "registraions", registrationsTrigger);
+    setupChangeStream(Registrations, "registrations", registrationsTrigger);
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }

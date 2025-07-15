@@ -6,9 +6,11 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const LoginLogs = require("../Schemas/LoginLogs");
+const LoginAttempt = require('../Schemas/LoginAttempts')
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_TIMEOUT = process.env.JWT_EXPIRATION
+const limitLoginAttempts = require("../midleware/LImitLoginAttempts");
 
 //route 1: college sign up --> new college db creation
 router.post(
@@ -61,6 +63,7 @@ router.post(
       min: 8,
     }),
   ],
+  limitLoginAttempts,
   async (req, res) => {
     let success = false;
 
@@ -117,6 +120,7 @@ router.post(
         status: "success",
       });
       await loginLog.save();
+      await LoginAttempt.findOneAndDelete({ ip: ipAddress });
       res.json({ success, authToken });
     } catch (error) {
       const loginLog = new LoginLogs({
@@ -199,6 +203,7 @@ router.post(
       min: 8,
     }),
   ],
+  limitLoginAttempts,
   async (req, res) => {
     let success = false;
     const ipAddress =
@@ -255,6 +260,7 @@ router.post(
         status:'success'
       });
       await loginLog.save()
+      await LoginAttempt.findOneAndDelete({ ip: ipAddress });
       res.json({ success, authToken });
     } catch (error) {
       const loginLog = new LoginLogs({
